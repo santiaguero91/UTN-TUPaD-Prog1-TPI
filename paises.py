@@ -21,43 +21,7 @@ def menu():
             continue
 
         if opcion == 1:
-
-            while True:
-                try:
-                    numero_paises = int(
-                        input("Ingrese el numero de paises: "))
-                    if numero_paises <= 0:
-                        raise ValueError
-                    break
-                except ValueError:
-                    print("Error: Ingrese un número entero mayor que 0.")
-
-            for i in range(numero_paises):
-                while True:
-                    nombre_pais = input(f"Ingresar nombre de pais {i+1}: ")
-                    if len(nombre_pais) == 0:
-                        print("Debe agregar un pais")
-                        continue
-                    superficie_pais = input(
-                        f"Ingresar superficie de pais {i+1}: ")
-                    if len(superficie_pais) == 0:
-                        print("Debe agregar una superficie")
-                        continue
-                    poblacion_pais = input(
-                        f"Ingresar poblacion de pais {i+1}: ")
-                    if len(poblacion_pais) == 0:
-                        print("Debe agregar una poblacion")
-                        continue
-                    continente_pais = input(
-                        f"Ingresar continente de pais {i+1}: ")
-                    if len(continente_pais) == 0:
-                        print("Debe agregar un continente")
-                        continue
-                    break
-
-                with open("paises.txt", "a") as archivo:
-                    archivo.write(
-                        f"{nombre_pais},{superficie_pais},{poblacion_pais},{continente_pais}\n")
+            agregar_paises(paises)
 
         if opcion == 2:
             actualizar_paises(paises)
@@ -75,7 +39,42 @@ def menu():
 
 
 def agregar_paises(paises):
-    print("hola")
+    while True:
+        try:
+            numero_paises = int(
+                input("Ingrese el numero de paises: "))
+            if numero_paises <= 0:
+                raise ValueError
+            break
+        except ValueError:
+            print("Error: Ingrese un número entero mayor que 0.")
+
+    for i in range(numero_paises):
+        while True:
+            nombre_pais = input(f"Ingresar nombre de pais {i+1}: ")
+            if len(nombre_pais) == 0:
+                print("Debe agregar un pais")
+                continue
+            superficie_pais = input(
+                f"Ingresar superficie de pais {i+1}: ")
+            if len(superficie_pais) == 0:
+                print("Debe agregar una superficie")
+                continue
+            poblacion_pais = input(
+                f"Ingresar poblacion de pais {i+1}: ")
+            if len(poblacion_pais) == 0:
+                print("Debe agregar una poblacion")
+                continue
+            continente_pais = input(
+                f"Ingresar continente de pais {i+1}: ")
+            if len(continente_pais) == 0:
+                print("Debe agregar un continente")
+                continue
+            break
+
+        with open("paises.txt", "a") as archivo:
+            archivo.write(
+                f"{nombre_pais},{superficie_pais},{poblacion_pais},{continente_pais}\n")
 
 
 def actualizar_paises(paises):
@@ -113,10 +112,6 @@ def filtrar_paises():
 
 
 def ordenar_paises():
-    print("hola")
-
-
-def agregar_paises():
     print("hola")
 
 
