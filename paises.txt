@@ -1,4 +1,4 @@
-Argentina,2222222222222222,543,SurAmerica
-Jamaica,321543,7489132,America
-Canada,567438,382190,America
-Cuba,5674389,109238,America
+Argentina,2222222222222222,12,SurAmerica
+Jamaica,321543,2,America
+Canada,567438,5,America
+Cuba,5674389,3,America
