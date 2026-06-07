@@ -21,7 +21,16 @@ def menu():
             continue
 
         if opcion == 1:
-            agregar_paises()
+            while True:
+                try:
+                    numero_paises = int( # Decidi pedir la cantidad de paises fuera de la funcion para aprovechar la recursividad. ---> Liam
+                        input("Ingrese el numero de paises: "))
+                    if numero_paises <= 0:
+                        raise ValueError
+                    break
+                except ValueError:
+                    print("Error: Ingrese un número entero mayor que 0.")
+            agregar_paises(numero_paises) # Le paso la cantidad de paises a la funcion para utilizar la recursividad. ---> Liam
         if opcion == 2:
             actualizar_paises()
         if opcion == 3:

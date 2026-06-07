@@ -1,48 +1,47 @@
 # Pregunta cuantos paises a agregar
 # En base a la cantidad ingresada crear un loop para
 # preguntar nombre, superficie, poblacion y continente ---> Santiago
-def agregar_paises():
+def agregar_paises(cant):
+    if cant <= 0: # Caso base para la recursividad. ---> Liam
+        return
     while True:
-        try:
-            numero_paises = int(
-                input("Ingrese el numero de paises: "))
-            if numero_paises <= 0:
-                raise ValueError
-            break
-        except ValueError:
-            print("Error: Ingrese un número entero mayor que 0.")
-
-    for i in range(numero_paises):
-        while True:
+        try: #Meto todo el codigo en un try/except para evitar errores a la hora de ingresar numeros enteros. ---> Liam
             nombre_pais = input(
-                f"Ingresar nombre de pais {i+1}: ").strip().lower()
+                f"Ingresar nombre del pais: ").strip().capitalize() #Cambio lower por Capitalize por prolijidad ---> Liam
             # Requisito minimo 1
-            if len(nombre_pais) == 0:
+            if nombre_pais.strip() == "": #Cambio los "len(variable)" de tipo str por un strip() para evitar que puedan ingresar espacios en blanco.
                 print("Debe agregar un pais al menos")
                 continue
-            superficie_pais = input(
-                f"Ingresar superficie de pais {i+1}: ")
-            # Requisito ingresar algun caracter
-            if len(superficie_pais) == 0:
+            superficie_pais = int(input( #Convierto a enteros los valores numericos como superficie y poblacion ya que dejaba ingresar texto. ---> Liam
+                f"Ingresar superficie del pais: "))
+            # Requisito ingresar algun caracter ---> Santiago
+            if superficie_pais <= 0:
                 print("Debe agregar una superficie")
                 continue
-            poblacion_pais = input(
-                f"Ingresar poblacion de pais {i+1}: ")
+            poblacion_pais = int(input(
+                f"Ingresar poblacion del pais: "))
             # Requisito ingresar algun caracter
-            if len(poblacion_pais) == 0:
+            if poblacion_pais <= 0:
                 print("Debe agregar una poblacion")
                 continue
             # Requisito ingresar algun caracter
             continente_pais = input(
-                f"Ingresar continente de pais {i+1}: ").strip().lower()
+                f"Ingresar continente del pais: ").strip().capitalize()
             if len(continente_pais) == 0:
                 print("Debe agregar un continente")
                 continue
+            print("-------------------------------")
             break
+        except ValueError:
+            print("Error, no ingreso un dato valido. Por favor intente cargar el pais nuevamente\n"
+            "-------------------------------"
+                )
+            continue
 
-        with open("paises.txt", "a") as archivo:
-            archivo.write(
-                f"{nombre_pais},{superficie_pais},{poblacion_pais},{continente_pais}\n")
+    with open("paises.txt", "a") as archivo:
+        archivo.write(
+            f"{nombre_pais},{superficie_pais},{poblacion_pais},{continente_pais}\n")
+    agregar_paises(cant -1) # Recursividad ---> Liam
 
 
 # funcion auxiliar para leer los paises del archivo de texto#
