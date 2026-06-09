@@ -50,17 +50,20 @@ def agregar_paises(cant):
 
 def cargar_paises():
     paises = []
-    with open("paises.txt", "r") as archivo:
-        for linea in archivo:
-            if not linea.strip():
-                continue
-            datos = linea.strip().split(",")
-            paises.append({
-                "nombre": datos[0],
-                "superficie": int(datos[1]),
-                "poblacion": int(datos[2]),
-                "continente": datos[3]
-            })
+    try: #Agrego un try/except para evitar que falle si no existe el archivo previamente. ---> Liam
+        with open("paises.txt", "r") as archivo:
+            for linea in archivo:
+                if not linea.strip():
+                    continue
+                datos = linea.strip().split(",")
+                paises.append({
+                    "nombre": datos[0],
+                    "superficie": int(datos[1]),
+                    "poblacion": int(datos[2]),
+                    "continente": datos[3]
+                })
+    except FileNotFoundError:
+        return False
     return paises
 
 
@@ -72,66 +75,74 @@ def cargar_paises():
 def actualizar_paises():
     paises = cargar_paises()
 
-    while True:
-        nombre = input(
-            "Nombre del pais que desea actualizar: ").strip().lower()
+    if not paises: #Verifico que haya caragado paises previamente y evitar que entre en un bucle. ---> Liam
+        print("No hay paises cargados todavia.")
+    else:
 
-        for pais in paises:
-            if pais["nombre"].lower() == nombre:
-                print(f"Pais encontrado: {pais['nombre']}")
-                print(f"Superficie: {pais['superficie']}")
-                print(f"Poblacion: {pais['poblacion']}")
-                print(f"Continente: {pais['continente']}")
-                break
-        else:
-            print("Pais no encontrado.")
-            continue
+        while True:
+            nombre = input(
+                "Nombre del pais que desea actualizar: ").strip().capitalize() # ---> Liam
+            print("")
+            for pais in paises:
+                if pais["nombre"] == nombre:
+                    print(f"Pais encontrado: {pais['nombre']}")
+                    print(f"Superficie: {pais['superficie']}")
+                    print(f"Poblacion: {pais['poblacion']}")
+                    print(f"Continente: {pais['continente']}\n")
+                    break
+            else:
+                print("Pais no encontrado.")
+                break # Cambio continue por break para salir de la funcion y volver al menu y no entrar en bucle si no quiere seguir ----> Liam
 
-        print("1. Nombre")
-        print("2. Superficie")
-        print("3. Poblacion")
-        print("4. Continente")
+            print("1. Nombre\n"
+            "2. Superficie\n"
+            "3. Poblacion\n"
+            "4. Continente\n")
 
-        try:
-            opcion = int(input("Que caracteristica desea actualizar?: "))
-        except ValueError:
-            print("Opcion no válida.")
-            continue
+            try:
+                opcion = int(input("Que caracteristica desea actualizar?: "))
 
-        nuevo_valor = input("Ingrese nuevo valor: ").strip().lower()
+                nuevo_valor = input("Ingrese nuevo valor: ").strip().capitalize()
 
-        if opcion == 1:
-            pais["nombre"] = nuevo_valor
-        elif opcion == 2:
-            pais["superficie"] = int(nuevo_valor)
-        elif opcion == 3:
-            pais["poblacion"] = int(nuevo_valor)
-        elif opcion == 4:
-            pais["continente"] = nuevo_valor
-        else:
-            print("Opcion no válida.")
-            continue
+                if opcion == 1:
+                    pais["nombre"] = nuevo_valor
+                elif opcion == 2:
+                    pais["superficie"] = int(nuevo_valor)
+                elif opcion == 3:
+                    pais["poblacion"] = int(nuevo_valor)
+                elif opcion == 4:
+                    pais["continente"] = nuevo_valor
+                else:
+                    print("Opcion no válida.")
+                    continue
+            except ValueError: # Utilizo el try anterior y lo aplico al resto del codigo para evitar que falle al intear. ---> Liam
+                print("Error, ingreso un valor incorrecto.")
+                continue
 
-        with open("paises.txt", "w") as archivo:
-            for p in paises:
-                archivo.write(
-                    f"{p['nombre']},{p['superficie']},{p['poblacion']},{p['continente']}\n")
 
-        print("Pais actualizado correctamente.")
-        break
+            with open("paises.txt", "w") as archivo:
+                for p in paises:
+                    archivo.write(
+                        f"{p['nombre']},{p['superficie']},{p['poblacion']},{p['continente']}\n")
+
+            print("Pais actualizado correctamente.")
+            break
 
 # Pregunta nombre de pais y lo busca dentro de la lista paises
 # muestra en consola la informacion de dicho pais ---> Santiago
 def buscar_pais():
     paises = cargar_paises()
     while True:
-        nombre_pais = input("Ingresar nombre del pais: ").strip().lower()
-        # Manejo de errores para inggresos nulos
-        if len(nombre_pais) == 0:
+        nombre_pais = input("Ingresar nombre del pais (0 para volver al menu): ").strip().capitalize()
+        # Manejo de errores para ingresos nulos
+        if nombre_pais.strip() == "": #Cambio len() por strip() para evitar que ingrese espacios en blanco. ---> Liam.
             print("Debe ingresar un nombre valido")
             continue
+        elif nombre_pais == "0": # Agrego un elif para poder volver al menu ya que entra en un bucle y no se puede salir.
+            print("Volviendo al menu...")
+            break
         for pais in paises:
-            if pais["nombre"].lower() == nombre_pais:
+            if pais["nombre"].capitalize() == nombre_pais: #Cambio lower() por capitalize() ---> Liam.
                 print(f"Pais encontrado: {pais['nombre']}")
                 print(f"Superficie: {pais['superficie']}")
                 print(f"Poblacion: {pais['poblacion']}")
