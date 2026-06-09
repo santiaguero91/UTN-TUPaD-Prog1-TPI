@@ -2,17 +2,19 @@
 # En base a la cantidad ingresada crear un loop para
 # preguntar nombre, superficie, poblacion y continente ---> Santiago
 def agregar_paises(cant):
-    if cant <= 0: # Caso base para la recursividad. ---> Liam
+    if cant <= 0:  # Caso base para la recursividad. ---> Liam
         return
     while True:
-        try: #Meto todo el codigo en un try/except para evitar errores a la hora de ingresar numeros enteros. ---> Liam
+        try:  # Meto todo el codigo en un try/except para evitar errores a la hora de ingresar numeros enteros. ---> Liam
             nombre_pais = input(
-                f"Ingresar nombre del pais: ").strip().capitalize() #Cambio lower por Capitalize por prolijidad ---> Liam
+                # Cambio lower por Capitalize por prolijidad ---> Liam
+                f"Ingresar nombre del pais: ").strip().capitalize()
             # Requisito minimo 1
-            if nombre_pais.strip() == "": #Cambio los "len(variable)" de tipo str por un strip() para evitar que puedan ingresar espacios en blanco.
+            # Cambio los "len(variable)" de tipo str por un strip() para evitar que puedan ingresar espacios en blanco.
+            if nombre_pais.strip() == "":
                 print("Debe agregar un pais al menos")
                 continue
-            superficie_pais = int(input( #Convierto a enteros los valores numericos como superficie y poblacion ya que dejaba ingresar texto. ---> Liam
+            superficie_pais = int(input(  # Convierto a enteros los valores numericos como superficie y poblacion ya que dejaba ingresar texto. ---> Liam
                 f"Ingresar superficie del pais: "))
             # Requisito ingresar algun caracter ---> Santiago
             if superficie_pais <= 0:
@@ -34,14 +36,14 @@ def agregar_paises(cant):
             break
         except ValueError:
             print("Error, no ingreso un dato valido. Por favor intente cargar el pais nuevamente\n"
-            "-------------------------------"
-                )
+                  "-------------------------------"
+                  )
             continue
 
     with open("paises.txt", "a") as archivo:
         archivo.write(
             f"{nombre_pais},{superficie_pais},{poblacion_pais},{continente_pais}\n")
-    agregar_paises(cant -1) # Recursividad ---> Liam
+    agregar_paises(cant - 1)  # Recursividad ---> Liam
 
 
 # funcion auxiliar para leer los paises del archivo de texto#
@@ -91,12 +93,16 @@ def actualizar_paises():
         print("2. Superficie")
         print("3. Poblacion")
         print("4. Continente")
-
-        try:
-            opcion = int(input("Que caracteristica desea actualizar?: "))
-        except ValueError:
-            print("Opcion no válida.")
-            continue
+        # Manejo de error para que solo permita numeros en el rango 1-4
+        while True:
+            try:
+                opcion = int(input("Que caracteristica desea actualizar?: "))
+                if opcion not in range(1, 5):
+                    raise ValueError
+                break
+            except ValueError:
+                print("Opcion no válida.")
+                continue
 
         nuevo_valor = input("Ingrese nuevo valor: ").strip().lower()
 
@@ -122,11 +128,13 @@ def actualizar_paises():
 
 # Pregunta nombre de pais y lo busca dentro de la lista paises
 # muestra en consola la informacion de dicho pais ---> Santiago
+
+
 def buscar_pais():
     paises = cargar_paises()
     while True:
         nombre_pais = input("Ingresar nombre del pais: ").strip().lower()
-        # Manejo de errores para inggresos nulos
+        # Manejo de errores para ingresos nulos
         if len(nombre_pais) == 0:
             print("Debe ingresar un nombre valido")
             continue
@@ -138,7 +146,20 @@ def buscar_pais():
                 print(f"Continente: {pais['continente']}")
                 break
         else:
-            print("Pais no encontrado.")
+            # Busqueda parcial si no se encontro coincidencia exacta
+            resultados_parciales = [
+                p for p in paises if nombre_pais in p["nombre"].lower()]
+            if resultados_parciales:
+                print(
+                    f"Coincidencias parciales ({len(resultados_parciales)}):")
+                for p in resultados_parciales:
+                    print(f"Pais: {p['nombre']}")
+                    print(f"Superficie: {p['superficie']}")
+                    print(f"Poblacion: {p['poblacion']}")
+                    print(f"Continente: {p['continente']}")
+            else:
+                print("Pais no encontrado.")
+        break
 
 
 # Muestra en pantalla opciones de filtrado
@@ -152,34 +173,39 @@ def filtrar_paises():
         print("1. Filtrar por Continente:")
         print("2. Filtrar por Rango de poblacion:")
         print("3. Filtrar por Rango de superficie:")
-        try:
-            opcion = int(input("Ingrese opcion para filtrar:"))
-            if opcion not in range(1, 4):
-                print("Error: ingrese un numero del 1 al 3.")
+        print("4. Volver al menu :")
+        # Manejo de error para que solo permita numeros en el rango 1-4
+        while True:
+            try:
+                opcion = int(input("Ingrese opcion para filtrar:"))
+                if opcion not in range(1, 5):
+                    raise ValueError
+                break
+            except ValueError:
+                print("Error: ingrese un numero del 1 al 4.")
                 continue
-        except ValueError:
-            print("Error: ingrese un numero del 1 al 3.")
-            continue
 
         if opcion == 1:
             nombre = input("Ingrese nombre de continente").strip().lower()
             for pais in paises:
                 if pais["continente"].lower() == nombre:
                     print(pais)
+        elif opcion == 4:
+            break
+        elif opcion != 1:
+            rango_minimo = int(input("Ingrese rango minimo: "))
+            rango_maximo = int(input("Ingrese rango maximo: "))
 
-        if opcion != 1:
-            rango_minimo = int(input("Ingrese rango minimo"))
-            rango_maximo = int(input("Ingrese rango maximo"))
-
-        if opcion == 2:
+        elif opcion == 2:
             for pais in paises:
                 if pais["poblacion"] > rango_minimo and pais["poblacion"] < rango_maximo:
                     print(pais)
 
-        if opcion == 3:
+        elif opcion == 3:
             for pais in paises:
                 if pais["superficie"] > rango_minimo and pais["superficie"] < rango_maximo:
                     print(pais)
+
 
 # Muestra en pantalla opciones de ordenado
 # en base a la opcion ingresada mostrara en orden deseado los paises interesado. ---> Santiago
@@ -192,19 +218,31 @@ def ordenar_paises():
         print("1. Nombre")
         print("2. Población")
         print("3. Superficie")
+        print("4. Volver al menu")
         # Manejo de errores para verificar numero en rango
-        try:
-            opcion = int(input("Ingrese opcion para ordenar: "))
-            if opcion not in range(1, 4):
-                print("Error: ingrese un numero del 1 al 3.")
+        while True:
+            try:
+                opcion = int(input("Ingrese opcion para ordenar: "))
+                if opcion not in range(1, 5):
+                    raise ValueError
+                break
+            except ValueError:
+                print("Error: ingrese un numero del 1 al 4.")
                 continue
-        except ValueError:
-            print("Error: ingrese un numero del 1 al 3.")
-            continue
-        if opcion == 1:
+
+        if opcion == 4:
+            break
+        elif opcion == 1:
             paises.sort(key=lambda p: p["nombre"])
         elif opcion == 2:
             paises.sort(key=lambda p: p["poblacion"])
+            ascendente = input(
+                "Orden ascendente o descentente ( A ó D ):").strip().lower()
+            if ascendente == "a":
+                paises.sort(key=lambda p: p["poblacion"])
+            elif ascendente == "d":
+                paises.sort(key=lambda p: p["poblacion"], reverse=True)
+
         elif opcion == 3:
             ascendente = input(
                 "Orden ascendente o descentente ( A ó D ):").strip().lower()
@@ -212,10 +250,6 @@ def ordenar_paises():
                 paises.sort(key=lambda p: p["superficie"])
             elif ascendente == "d":
                 paises.sort(key=lambda p: p["superficie"], reverse=True)
-
-        else:
-            print("Opcion no válida.")
-            return
 
         for pais in paises:
             print(
@@ -230,21 +264,33 @@ def mostrar_estadisticas():
         print("1. Pais con mayor y menor poblacion:")
         print("2. Promedio de poblacion:")
         print("3. Cantidad de países por continente:")
+        print("4. Promedio de superficie:")
+        print("5. Volver al menu:")
         # Manejo de errores para verificar numero en rango
-        try:
-            opcion = int(input("Ingrese una opcion:"))
-            if opcion not in range(1, 4):
-                print("Error: ingrese un numero del 1 al 3.")
+        while True:
+            try:
+                opcion = int(input("Ingrese una opcion:"))
+                if opcion not in range(1, 6):
+                    raise ValueError
+                break
+            except ValueError:
+                print("Error: ingrese un numero del 1 al 5.")
                 continue
-        except ValueError:
-            print("Error: ingrese un numero del 1 al 3.")
-            continue
 
+        if opcion == 5:
+            break
         if opcion == 1:
             paises.sort(key=lambda p: p["poblacion"])
         # Ordena los paises de menor a mayor en base a su poblacion
             print(f"Pais con menor poblacion {paises[0]}")
             print(f"Pais con mayor poblacion {paises[-1]}")
+
+        # Calcula el promedio de poblacion sumando todos los valores y dividiendo por la cantidad de paises
+        elif opcion == 2:
+            promedio_poblacion = sum(p["poblacion"]
+                                     for p in paises) / len(paises)
+            print(
+                f"Promedio de poblacion: {promedio_poblacion} habitantes")
 
         # busca todos los distintos valor para "continente dentro de la lista de diccionarios"
         elif opcion == 3:
@@ -259,3 +305,9 @@ def mostrar_estadisticas():
 
             for continente, cantidad in conteo.items():
                 print(f"{continente}: {cantidad}")
+
+        # Calcula el promedio de superficie sumando todos los valores y dividiendo por la cantidad de paises
+        elif opcion == 4:
+            promedio_superficie = sum(p["superficie"]
+                                      for p in paises) / len(paises)
+            print(f"Promedio de superficie: {promedio_superficie} km2")
