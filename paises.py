@@ -13,7 +13,8 @@ def menu():
         "7. Salir:\n"
         "-------------------------------")
         try:
-            opcion = int(input("Seleccione una opcion: "))
+            opcion = int(input("Seleccione una opcion:"))
+            print("")
             if opcion not in range(1, 8):
                 raise ValueError #Cambio el print por un raise que genere el ValueError y asi no repetir el print. --> Liam
         except ValueError:

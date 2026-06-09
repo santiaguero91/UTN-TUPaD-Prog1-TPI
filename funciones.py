@@ -77,61 +77,65 @@ def actualizar_paises():
 
     if not paises: #Verifico que haya caragado paises previamente y evitar que entre en un bucle. ---> Liam
         print("No hay paises cargados todavia.")
-    else:
+        return
 
-        while True:
-            nombre = input(
-                "Nombre del pais que desea actualizar: ").strip().capitalize() # ---> Liam
-            print("")
-            for pais in paises:
-                if pais["nombre"] == nombre:
-                    print(f"Pais encontrado: {pais['nombre']}")
-                    print(f"Superficie: {pais['superficie']}")
-                    print(f"Poblacion: {pais['poblacion']}")
-                    print(f"Continente: {pais['continente']}\n")
-                    break
+    while True:
+        nombre = input(
+            "Nombre del pais que desea actualizar: ").strip().capitalize() # ---> Liam
+        print("")
+        for pais in paises:
+            if pais["nombre"] == nombre:
+                print(f"Pais encontrado: {pais['nombre']}")
+                print(f"Superficie: {pais['superficie']}")
+                print(f"Poblacion: {pais['poblacion']}")
+                print(f"Continente: {pais['continente']}\n")
+                break
+        else:
+            print("Pais no encontrado.")
+            break # Cambio continue por break para salir de la funcion y volver al menu y no entrar en bucle si no quiere seguir ----> Liam
+
+        print("1. Nombre\n"
+        "2. Superficie\n"
+        "3. Poblacion\n"
+        "4. Continente\n")
+
+        try:
+            opcion = int(input("Que caracteristica desea actualizar?: "))
+
+            nuevo_valor = input("Ingrese nuevo valor: ").strip().capitalize()
+
+            if opcion == 1:
+                pais["nombre"] = nuevo_valor
+            elif opcion == 2:
+                pais["superficie"] = int(nuevo_valor)
+            elif opcion == 3:
+                pais["poblacion"] = int(nuevo_valor)
+            elif opcion == 4:
+                pais["continente"] = nuevo_valor
             else:
-                print("Pais no encontrado.")
-                break # Cambio continue por break para salir de la funcion y volver al menu y no entrar en bucle si no quiere seguir ----> Liam
-
-            print("1. Nombre\n"
-            "2. Superficie\n"
-            "3. Poblacion\n"
-            "4. Continente\n")
-
-            try:
-                opcion = int(input("Que caracteristica desea actualizar?: "))
-
-                nuevo_valor = input("Ingrese nuevo valor: ").strip().capitalize()
-
-                if opcion == 1:
-                    pais["nombre"] = nuevo_valor
-                elif opcion == 2:
-                    pais["superficie"] = int(nuevo_valor)
-                elif opcion == 3:
-                    pais["poblacion"] = int(nuevo_valor)
-                elif opcion == 4:
-                    pais["continente"] = nuevo_valor
-                else:
-                    print("Opcion no válida.")
-                    continue
-            except ValueError: # Utilizo el try anterior y lo aplico al resto del codigo para evitar que falle al intear. ---> Liam
-                print("Error, ingreso un valor incorrecto.")
+                print("Opcion no válida.")
                 continue
+        except ValueError: # Utilizo el try anterior y lo aplico al resto del codigo para evitar que falle al intear. ---> Liam
+            print("Error, ingreso un valor incorrecto.")
+            continue
 
 
-            with open("paises.txt", "w") as archivo:
-                for p in paises:
-                    archivo.write(
-                        f"{p['nombre']},{p['superficie']},{p['poblacion']},{p['continente']}\n")
+        with open("paises.txt", "w") as archivo:
+            for p in paises:
+                archivo.write(
+                    f"{p['nombre']},{p['superficie']},{p['poblacion']},{p['continente']}\n")
 
-            print("Pais actualizado correctamente.")
-            break
+        print("Pais actualizado correctamente.")
+        break
 
 # Pregunta nombre de pais y lo busca dentro de la lista paises
 # muestra en consola la informacion de dicho pais ---> Santiago
 def buscar_pais():
     paises = cargar_paises()
+    if not paises:
+        print("No hay paises cargados todavia.")
+        return
+    
     while True:
         nombre_pais = input("Ingresar nombre del pais (0 para volver al menu): ").strip().capitalize()
         # Manejo de errores para ingresos nulos
@@ -159,82 +163,98 @@ def buscar_pais():
 
 def filtrar_paises():
     paises = cargar_paises()
+    if not paises:
+        print("No hay paises cargados todavia.") # Verificador ---> Liam
+        return
     while True:
-        print("1. Filtrar por Continente:")
-        print("2. Filtrar por Rango de poblacion:")
-        print("3. Filtrar por Rango de superficie:")
+        print("1. Filtrar por Continente:\n"
+        "2. Filtrar por Rango de poblacion:\n"
+        "3. Filtrar por Rango de superficie:\n") # correcion prints ---> Liam
         try:
-            opcion = int(input("Ingrese opcion para filtrar:"))
+            opcion = int(input("Ingrese opcion para filtrar: "))
             if opcion not in range(1, 4):
-                print("Error: ingrese un numero del 1 al 3.")
-                continue
-        except ValueError:
-            print("Error: ingrese un numero del 1 al 3.")
+                raise ValueError # Genero la excepcion para aprovechar el mismo try en todo el codigo ---> Liam
+
+            elif opcion == 1:
+                nombre = input("Ingrese nombre de continente: ").strip().capitalize() # lower > capitalize ---> Liam
+                print("Lista de paises en el continente ingresado:\n") # Agregado por prolijidad ---> Liam
+                for pais in paises:
+                    if pais["continente"].capitalize() == nombre:
+                        print(pais['nombre']) # Correcion, ahora muestra el pais en vez del diccionario completo. ---> Liam
+                break
+
+            elif opcion == 2:
+                rango_minimo = int(input("Ingrese rango minimo: "))
+                rango_maximo = int(input("Ingrese rango maximo: "))
+                print("Paises dentro del rango de poblacion ingresado:\n")
+                for pais in paises:
+                    if pais["poblacion"] >= rango_minimo and pais["poblacion"] <= rango_maximo: # Correji el <> agregando = para que aplique el numero ingresado inclusive. ---> Liam
+                        print(pais['nombre'])
+                break
+
+            elif opcion == 3:
+                rango_minimo = int(input("Ingrese rango minimo: "))
+                rango_maximo = int(input("Ingrese rango maximo: "))
+                print("Paises dentro del rango de superficie ingresado:\n")
+                for pais in paises:
+                    if pais["superficie"] >= rango_minimo and pais["superficie"] <= rango_maximo:
+                        print(pais['nombre'])
+                break
+        except ValueError: # Corrijo el try/except ---> Liam
+            print("Error: no ingreso un numero valido.")
             continue
-
-        if opcion == 1:
-            nombre = input("Ingrese nombre de continente").strip().lower()
-            for pais in paises:
-                if pais["continente"].lower() == nombre:
-                    print(pais)
-
-        if opcion != 1:
-            rango_minimo = int(input("Ingrese rango minimo"))
-            rango_maximo = int(input("Ingrese rango maximo"))
-
-        if opcion == 2:
-            for pais in paises:
-                if pais["poblacion"] > rango_minimo and pais["poblacion"] < rango_maximo:
-                    print(pais)
-
-        if opcion == 3:
-            for pais in paises:
-                if pais["superficie"] > rango_minimo and pais["superficie"] < rango_maximo:
-                    print(pais)
 
 # Muestra en pantalla opciones de ordenado
 # en base a la opcion ingresada mostrara en orden deseado los paises interesado. ---> Santiago
 
+def paises_ordenados(paises): # Creo esta funcion para no repetir el for por cada opcion y printear correctamente ---> Liam
+    for pais in paises:
+                print(
+                    f"{pais['nombre']} - Superficie: {pais['superficie']} - Poblacion: {pais['poblacion']} - Continente: {pais['continente']}\n")
 
 def ordenar_paises():
     paises = cargar_paises()
+    if not paises:
+        print("No hay paises cargados todavia!")
+        return
     while True:
-        print("Ordenar países por:")
-        print("1. Nombre")
-        print("2. Población")
-        print("3. Superficie")
+        print("Ordenar países por:\n"
+        "1. Nombre\n"
+        "2. Población\n"
+        "3. Superficie\n")
         # Manejo de errores para verificar numero en rango
         try:
             opcion = int(input("Ingrese opcion para ordenar: "))
             if opcion not in range(1, 4):
-                print("Error: ingrese un numero del 1 al 3.")
+                print("Error: ingrese un numero del 1 al 3.\n")
                 continue
-        except ValueError:
-            print("Error: ingrese un numero del 1 al 3.")
-            continue
-        if opcion == 1:
-            paises.sort(key=lambda p: p["nombre"])
-        elif opcion == 2:
-            paises.sort(key=lambda p: p["poblacion"])
-        elif opcion == 3:
-            ascendente = input(
-                "Orden ascendente o descentente ( A ó D ):").strip().lower()
-            if ascendente == "a":
-                paises.sort(key=lambda p: p["superficie"])
-            elif ascendente == "d":
-                paises.sort(key=lambda p: p["superficie"], reverse=True)
-
-        else:
-            print("Opcion no válida.")
+            if opcion == 1:
+                paises.sort(key=lambda p: p["nombre"])
+                paises_ordenados(paises) # Llamo a la funcion que cree en vez de repetir todo el rato el for ---> Liam
+            elif opcion == 2:
+                paises.sort(key=lambda p: p["poblacion"])
+                paises_ordenados(paises)
+            elif opcion == 3:
+                ascendente = input(
+                    "Orden ascendente o descentente ( A ó D ):").strip().lower()
+                if ascendente == "a":
+                    paises.sort(key=lambda p: p["superficie"])
+                    paises_ordenados(paises)
+                elif ascendente == "d":
+                    paises.sort(key=lambda p: p["superficie"], reverse=True)
+                    paises_ordenados(paises)
+                else:
+                    print("Opcion no valida!\n")
             return
-
-        for pais in paises:
-            print(
-                f"{pais['nombre']} - Superficie: {pais['superficie']} - Poblacion: {pais['poblacion']} - Continente: {pais['continente']}")
+        
+        except ValueError:
+            print("Error: no ingreso un numero valido.\n") # Corrijo el try/except ---> Liam
+            continue
 
 
 def mostrar_estadisticas():
     paises = cargar_paises()
+    
     while True:
         # Muestra en pantalla opciones de
         print("Mostrar estadisticas:")
