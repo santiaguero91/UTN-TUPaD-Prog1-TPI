@@ -264,6 +264,10 @@ def ordenar_paises():
 def mostrar_estadisticas():
     paises = cargar_paises()
     
+    if not paises:
+        print("No hay paises cargados todavia!")
+        return
+    
     while True:
         if not paises:
             print("No hay paises cargados todavia!\n")
