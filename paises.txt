@@ -1,2 +1,4 @@
-Colombia,516516,20000,America
-Venezuela,960000,4000,America
+Argentina,2616516,2061616,America del sur
+Japon,16516519,46154161,Asia
+Brazil,6516516,984651,America del sur
+Alemania,615656,65461202,Europa

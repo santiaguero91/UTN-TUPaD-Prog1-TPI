@@ -13,7 +13,7 @@ def menu():
         "7. Salir:\n"
         "-------------------------------")
         try:
-            opcion = int(input("Seleccione una opcion:"))
+            opcion = int(input("Seleccione una opcion: "))
             print("")
             if opcion not in range(1, 8):
                 raise ValueError #Cambio el print por un raise que genere el ValueError y asi no repetir el print. --> Liam
@@ -32,17 +32,17 @@ def menu():
                 except ValueError:
                     print("Error: Ingrese un número entero mayor que 0.")
             agregar_paises(numero_paises) # Le paso la cantidad de paises a la funcion para utilizar la recursividad. ---> Liam
-        if opcion == 2:
+        elif opcion == 2:
             actualizar_paises()
-        if opcion == 3:
+        elif opcion == 3:
             buscar_pais()
-        if opcion == 4:
+        elif opcion == 4:
             filtrar_paises()
-        if opcion == 5:
+        elif opcion == 5:
             ordenar_paises()
-        if opcion == 6:
+        elif opcion == 6:
             mostrar_estadisticas()
-        if opcion == 7:
+        else:
             print("Saliendo...")
             break
 

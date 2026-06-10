@@ -41,6 +41,7 @@ def agregar_paises(cant):
     with open("paises.txt", "a") as archivo:
         archivo.write(
             f"{nombre_pais},{superficie_pais},{poblacion_pais},{continente_pais}\n")
+    print("\nPaises cargados correctamente!")
     agregar_paises(cant -1) # Recursividad ---> Liam
 
 
@@ -113,10 +114,10 @@ def actualizar_paises():
             elif opcion == 4:
                 pais["continente"] = nuevo_valor
             else:
-                print("Opcion no válida.")
+                print("\nOpcion no válida.")
                 continue
         except ValueError: # Utilizo el try anterior y lo aplico al resto del codigo para evitar que falle al intear. ---> Liam
-            print("Error, ingreso un valor incorrecto.")
+            print("Error, ingreso un valor incorrecto.\n")
             continue
 
 
@@ -125,7 +126,7 @@ def actualizar_paises():
                 archivo.write(
                     f"{p['nombre']},{p['superficie']},{p['poblacion']},{p['continente']}\n")
 
-        print("Pais actualizado correctamente.")
+        print("\nPais actualizado correctamente.")
         break
 
 # Pregunta nombre de pais y lo busca dentro de la lista paises
@@ -142,18 +143,18 @@ def buscar_pais():
         if nombre_pais.strip() == "": #Cambio len() por strip() para evitar que ingrese espacios en blanco. ---> Liam.
             print("Debe ingresar un nombre valido")
             continue
-        elif nombre_pais == "0": # Agrego un elif para poder volver al menu ya que entra en un bucle y no se puede salir.
+        elif nombre_pais == "0": # Agrego un elif para poder volver al menu ya que entra en un bucle y no se puede salir. ---> Liam
             print("Volviendo al menu...")
             break
         for pais in paises:
             if pais["nombre"].capitalize() == nombre_pais: #Cambio lower() por capitalize() ---> Liam.
-                print(f"Pais encontrado: {pais['nombre']}")
+                print(f"\nPais encontrado: {pais['nombre']}")
                 print(f"Superficie: {pais['superficie']}")
                 print(f"Poblacion: {pais['poblacion']}")
                 print(f"Continente: {pais['continente']}")
                 break
         else:
-            print("Pais no encontrado.")
+            print("Pais no encontrado.\n")
 
 
 # Muestra en pantalla opciones de filtrado
@@ -171,11 +172,9 @@ def filtrar_paises():
         "2. Filtrar por Rango de poblacion:\n"
         "3. Filtrar por Rango de superficie:\n") # correcion prints ---> Liam
         try:
-            opcion = int(input("Ingrese opcion para filtrar: "))
-            if opcion not in range(1, 4):
-                raise ValueError # Genero la excepcion para aprovechar el mismo try en todo el codigo ---> Liam
-
-            elif opcion == 1:
+            opcion = int(input("Ingrese opcion para filtrar (0 para salir): "))
+            
+            if opcion == 1:
                 nombre = input("Ingrese nombre de continente: ").strip().capitalize() # lower > capitalize ---> Liam
                 print("Lista de paises en el continente ingresado:\n") # Agregado por prolijidad ---> Liam
                 for pais in paises:
@@ -200,6 +199,13 @@ def filtrar_paises():
                     if pais["superficie"] >= rango_minimo and pais["superficie"] <= rango_maximo:
                         print(pais['nombre'])
                 break
+            
+            elif opcion == 0:
+                print("Volviendo al menu...")
+                break
+            else:
+                print("Error: No ingreso una opcion valida")
+
         except ValueError: # Corrijo el try/except ---> Liam
             print("Error: no ingreso un numero valido.")
             continue
@@ -210,7 +216,7 @@ def filtrar_paises():
 def paises_ordenados(paises): # Creo esta funcion para no repetir el for por cada opcion y printear correctamente ---> Liam
     for pais in paises:
                 print(
-                    f"{pais['nombre']} - Superficie: {pais['superficie']} - Poblacion: {pais['poblacion']} - Continente: {pais['continente']}\n")
+                    f"\n{pais['nombre']} - Superficie: {pais['superficie']} - Poblacion: {pais['poblacion']} - Continente: {pais['continente']}")
 
 def ordenar_paises():
     paises = cargar_paises()
@@ -224,10 +230,8 @@ def ordenar_paises():
         "3. Superficie\n")
         # Manejo de errores para verificar numero en rango
         try:
-            opcion = int(input("Ingrese opcion para ordenar: "))
-            if opcion not in range(1, 4):
-                print("Error: ingrese un numero del 1 al 3.\n")
-                continue
+            opcion = int(input("Ingrese opcion para ordenar (0 para salir): "))
+
             if opcion == 1:
                 paises.sort(key=lambda p: p["nombre"])
                 paises_ordenados(paises) # Llamo a la funcion que cree en vez de repetir todo el rato el for ---> Liam
@@ -245,6 +249,11 @@ def ordenar_paises():
                     paises_ordenados(paises)
                 else:
                     print("Opcion no valida!\n")
+            elif opcion == 0:
+                print("Volviendo al menu...")
+                break
+            else:
+                print("Error: No ingreso una opcion valida.")
             return
         
         except ValueError:
@@ -256,37 +265,58 @@ def mostrar_estadisticas():
     paises = cargar_paises()
     
     while True:
+        if not paises:
+            print("No hay paises cargados todavia!\n")
+            return
         # Muestra en pantalla opciones de
-        print("Mostrar estadisticas:")
-        print("1. Pais con mayor y menor poblacion:")
-        print("2. Promedio de poblacion:")
-        print("3. Cantidad de países por continente:")
+        print("Mostrar estadisticas:\n"
+        "1. Pais con mayor y menor poblacion:\n"
+        "2. Promedio de poblacion:\n"
+        "3. Cantidad de países por continente:\n"
+        "4. Promedio de superficie:\n")
         # Manejo de errores para verificar numero en rango
         try:
-            opcion = int(input("Ingrese una opcion:"))
-            if opcion not in range(1, 4):
-                print("Error: ingrese un numero del 1 al 3.")
-                continue
+            opcion = int(input("Ingrese una opcion (0 para salir):"))
+
+            if opcion == 1:
+                paises.sort(key=lambda p: p["poblacion"])
+            # Ordena los paises de menor a mayor en base a su poblacion
+                print(f"\nEl pais con menor poblacion es {paises[0]['nombre']} con {paises[0]['poblacion']} habitantes\n")
+                print(f"El pais con mayor poblacion es {paises[-1]['nombre']} con {paises[-1]['poblacion']} habitantes\n")
+            # busca todos los distintos valor para "continente dentro de la lista de diccionarios"
+
+            elif opcion == 2: # Creo la opcion 2 del promedio de poblacion que faltaba ---> Liam
+                suma_poblacion = 0
+                for pais in paises:
+                    suma_poblacion += pais["poblacion"]
+                promedio = suma_poblacion / len(paises)
+                print(f"\nPromedio de habitantes: {promedio:.2f}\n")
+            
+            elif opcion == 3:
+                conteo = {}
+                for pais in paises:
+                    continente = pais["continente"]
+
+                    if continente in conteo:
+                        conteo[continente] += 1
+                    else:
+                        conteo[continente] = 1
+
+                for continente, cantidad in conteo.items():
+                    print(f"\n{continente}: {cantidad}\n")
+            
+            elif opcion == 4: # Creo la opcion del promedio de la superficie que faltaba ---> Liam
+                suma_superficie = 0
+                for pais in paises:
+                    suma_superficie += pais["superficie"]
+                promedio = suma_superficie / len(paises)
+                print(f"\nPromedio de superficie: {promedio:.2f} km²\n")
+
+            elif opcion == 0:
+                print("\nVolviendo al menu...")
+                break
+            else:
+                print("\nOpcion no valida!")
         except ValueError:
-            print("Error: ingrese un numero del 1 al 3.")
+            print("\nError: No ingreso una opcion valida!\n")
             continue
-
-        if opcion == 1:
-            paises.sort(key=lambda p: p["poblacion"])
-        # Ordena los paises de menor a mayor en base a su poblacion
-            print(f"Pais con menor poblacion {paises[0]}")
-            print(f"Pais con mayor poblacion {paises[-1]}")
-
-        # busca todos los distintos valor para "continente dentro de la lista de diccionarios"
-        elif opcion == 3:
-            conteo = {}
-            for pais in paises:
-                continente = pais["continente"]
-
-                if continente in conteo:
-                    conteo[continente] += 1
-                else:
-                    conteo[continente] = 1
-
-            for continente, cantidad in conteo.items():
-                print(f"{continente}: {cantidad}")
