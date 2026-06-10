@@ -38,7 +38,7 @@ def agregar_paises(cant):
                 )
             continue
 
-    with open("paises.txt", "a") as archivo:
+    with open("paises.csv", "a") as archivo:
         archivo.write(
             f"{nombre_pais},{superficie_pais},{poblacion_pais},{continente_pais}\n")
     print("\nPaises cargados correctamente!")
@@ -52,7 +52,7 @@ def agregar_paises(cant):
 def cargar_paises():
     paises = []
     try: #Agrego un try/except para evitar que falle si no existe el archivo previamente. ---> Liam
-        with open("paises.txt", "r") as archivo:
+        with open("paises.csv", "r") as archivo:
             for linea in archivo:
                 if not linea.strip():
                     continue
@@ -121,7 +121,7 @@ def actualizar_paises():
             continue
 
 
-        with open("paises.txt", "w") as archivo:
+        with open("paises.csv", "w") as archivo:
             for p in paises:
                 archivo.write(
                     f"{p['nombre']},{p['superficie']},{p['poblacion']},{p['continente']}\n")
@@ -141,7 +141,7 @@ def buscar_pais():
         nombre_pais = input("Ingresar nombre del pais (0 para volver al menu): ").strip().capitalize()
         # Manejo de errores para ingresos nulos
         if nombre_pais.strip() == "": #Cambio len() por strip() para evitar que ingrese espacios en blanco. ---> Liam.
-            print("Debe ingresar un nombre valido")
+            print("\nDebe ingresar un nombre valido\n")
             continue
         elif nombre_pais == "0": # Agrego un elif para poder volver al menu ya que entra en un bucle y no se puede salir. ---> Liam
             print("Volviendo al menu...")
@@ -151,7 +151,7 @@ def buscar_pais():
                 print(f"\nPais encontrado: {pais['nombre']}")
                 print(f"Superficie: {pais['superficie']}")
                 print(f"Poblacion: {pais['poblacion']}")
-                print(f"Continente: {pais['continente']}")
+                print(f"Continente: {pais['continente']}\n")
                 break
         else:
             print("Pais no encontrado.\n")
