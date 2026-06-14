@@ -1,4 +1,4 @@
-Argentina,2222222222222222,12,SurAmerica
-Jamaica,321543,2,America
-Canada,567438,5,America
-Cuba,5674389,3,America
+Argentina,2616516,2061616,America del sur
+Japon,16516519,46154161,Asia
+Brazil,6516516,984651,America del sur
+Alemania,615656,65461202,Europa
