@@ -2,17 +2,19 @@
 # En base a la cantidad ingresada crear un loop para
 # preguntar nombre, superficie, poblacion y continente ---> Santiago
 def agregar_paises(cant):
-    if cant <= 0: # Caso base para la recursividad. ---> Liam
+    if cant <= 0:  # Caso base para la recursividad. ---> Liam
         return
     while True:
-        try: #Meto todo el codigo en un try/except para evitar errores a la hora de ingresar numeros enteros. ---> Liam
+        try:  # Meto todo el codigo en un try/except para evitar errores a la hora de ingresar numeros enteros. ---> Liam
             nombre_pais = input(
-                f"Ingresar nombre del pais: ").strip().capitalize() #Cambio lower por Capitalize por prolijidad ---> Liam
+                # Cambio lower por Capitalize por prolijidad ---> Liam
+                f"Ingresar nombre del pais: ").strip().capitalize()
             # Requisito minimo 1
-            if nombre_pais.strip() == "": #Cambio los "len(variable)" de tipo str por un strip() para evitar que puedan ingresar espacios en blanco.
+            # Cambio los "len(variable)" de tipo str por un strip() para evitar que puedan ingresar espacios en blanco.
+            if nombre_pais.strip() == "":
                 print("Debe agregar un pais al menos")
                 continue
-            superficie_pais = int(input( #Convierto a enteros los valores numericos como superficie y poblacion ya que dejaba ingresar texto. ---> Liam
+            superficie_pais = int(input(  # Convierto a enteros los valores numericos como superficie y poblacion ya que dejaba ingresar texto. ---> Liam
                 f"Ingresar superficie del pais: "))
             # Requisito ingresar algun caracter ---> Santiago
             if superficie_pais <= 0:
@@ -34,8 +36,8 @@ def agregar_paises(cant):
             break
         except ValueError:
             print("Error, no ingreso un dato valido. Por favor intente cargar el pais nuevamente\n"
-            "-------------------------------"
-                )
+                  "-------------------------------"
+                  )
             continue
 
     with open("paises.csv", "a") as archivo:
@@ -131,6 +133,8 @@ def actualizar_paises():
 
 # Pregunta nombre de pais y lo busca dentro de la lista paises
 # muestra en consola la informacion de dicho pais ---> Santiago
+
+
 def buscar_pais():
     paises = cargar_paises()
     if not paises:
@@ -154,7 +158,17 @@ def buscar_pais():
                 print(f"Continente: {pais['continente']}\n")
                 break
         else:
-            print("Pais no encontrado.\n")
+            # En caso de no encontrar nombre exacto realiza busqueda parcial---> Santi.
+            encontrados = [p for p in paises if nombre_pais.lower() in p["nombre"].lower()]
+            if encontrados:
+                print(f"\nNo se encontro una coincidencia exacta. Resultados parciales para '{nombre_pais}':\n")
+                for p in encontrados:
+                    print(f"Pais encontrado: {p['nombre']}")
+                    print(f"Superficie: {p['superficie']}")
+                    print(f"Poblacion: {p['poblacion']}")
+                    print(f"Continente: {p['continente']}\n")
+            else:
+                print("Pais no encontrado.\n")
 
 
 # Muestra en pantalla opciones de filtrado
@@ -209,6 +223,7 @@ def filtrar_paises():
         except ValueError: # Corrijo el try/except ---> Liam
             print("Error: no ingreso un numero valido.")
             continue
+
 
 # Muestra en pantalla opciones de ordenado
 # en base a la opcion ingresada mostrara en orden deseado los paises interesado. ---> Santiago
