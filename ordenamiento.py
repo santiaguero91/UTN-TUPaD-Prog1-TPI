@@ -1,4 +1,4 @@
-from aux import cargar_paises
+from cargar_paises import cargar_paises
 
 
 # Muestra en pantalla opciones de ordenado

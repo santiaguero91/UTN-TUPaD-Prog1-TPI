@@ -40,15 +40,11 @@ def menu():
         elif opcion == 2:
             actualizar_paises()
         elif opcion == 3:
-        elif opcion == 3:
             buscar_pais()
-        elif opcion == 4:
         elif opcion == 4:
             filtrar_paises()
         elif opcion == 5:
-        elif opcion == 5:
             ordenar_paises()
-        elif opcion == 6:
         elif opcion == 6:
             mostrar_estadisticas()
         else:

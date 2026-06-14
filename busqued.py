@@ -1,4 +1,4 @@
-from aux import cargar_paises
+from cargar_paises import cargar_paises
 
 
 # Pregunta nombre de pais y lo busca dentro de la lista paises

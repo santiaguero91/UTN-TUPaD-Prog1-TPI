@@ -34,5 +34,10 @@ python main.py
 ## Estructura del proyecto
 
 - `main.py`: menú principal y flujo del programa.
-- `funciones.py`: funciones para agregar, actualizar, buscar, filtrar, ordenar y mostrar estadísticas de países.
+- `cargar_paises.py`: función auxiliar para cargar los países desde el archivo CSV.
+- `actualizacion.py`: funciones para agregar y actualizar países.
+- `busqued.py`: función para buscar países.
+- `filtros.py`: función para filtrar países.
+- `ordenamiento.py`: función para ordenar países.
+- `estadisticas.py`: función para mostrar estadísticas de países.
 - `paises.csv`: archivo de datos donde se guardan los países (formato: `nombre,superficie,poblacion,continente`).
