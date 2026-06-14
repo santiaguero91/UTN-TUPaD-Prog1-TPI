@@ -154,7 +154,17 @@ def buscar_pais():
                 print(f"Continente: {pais['continente']}\n")
                 break
         else:
-            print("Pais no encontrado.\n")
+            # En caso de no encontrar nombre exacto realiza busqueda parcial---> Santi.
+            encontrados = [p for p in paises if nombre_pais.lower() in p["nombre"].lower()]
+            if encontrados:
+                print(f"\nNo se encontro una coincidencia exacta. Resultados parciales para '{nombre_pais}':\n")
+                for p in encontrados:
+                    print(f"Pais encontrado: {p['nombre']}")
+                    print(f"Superficie: {p['superficie']}")
+                    print(f"Poblacion: {p['poblacion']}")
+                    print(f"Continente: {p['continente']}\n")
+            else:
+                print("Pais no encontrado.\n")
 
 
 # Muestra en pantalla opciones de filtrado
