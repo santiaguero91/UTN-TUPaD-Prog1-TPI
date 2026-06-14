@@ -1,4 +1,8 @@
-from funciones import agregar_paises, actualizar_paises, buscar_pais, filtrar_paises, ordenar_paises, mostrar_estadisticas
+from actualizacion import actualizar_paises, agregar_paises
+from busqued import buscar_pais
+from filtros import filtrar_paises
+from ordenamiento import ordenar_paises
+from estadisticas import mostrar_estadisticas
 
 
 def menu():
