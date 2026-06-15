@@ -17,6 +17,3 @@ env/
 # OS
 .DS_Store
 Thumbs.db
-
-# PDF de consigna (no es parte del proyecto)
-*.pdf
