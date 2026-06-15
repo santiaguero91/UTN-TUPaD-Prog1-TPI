@@ -44,3 +44,7 @@ python main.py
 - `ordenamiento.py`: función para ordenar países.
 - `estadisticas.py`: función para mostrar estadísticas de países.
 - `paises.csv`: archivo de datos donde se guardan los países (formato: `nombre,superficie,poblacion,continente`).
+
+## Integrantes
+- Santiago Aguero
+- Liam Saez Aramune
