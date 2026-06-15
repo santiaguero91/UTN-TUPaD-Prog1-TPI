@@ -15,6 +15,9 @@ El programa permite:
 - **Ordenar países**: por nombre, por población o por superficie (ascendente o descendente).
 - **Mostrar estadísticas**: país con mayor y menor población, promedio de población, promedio de superficie y cantidad de países por continente.
 
+## Video Demostrativo
+https://www.youtube.com/watch?v=vid01bQVI38
+
 ## Requisitos
 
 - Python 3.x
@@ -41,3 +44,7 @@ python main.py
 - `ordenamiento.py`: función para ordenar países.
 - `estadisticas.py`: función para mostrar estadísticas de países.
 - `paises.csv`: archivo de datos donde se guardan los países (formato: `nombre,superficie,poblacion,continente`).
+
+## Integrantes
+- Santiago Aguero
+- Liam Saez Aramune
